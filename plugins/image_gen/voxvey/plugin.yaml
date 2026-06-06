@@ -1,0 +1,8 @@
+name: voxvey
+version: 1.0.0
+description: Voxvey image generation backend
+author: Voxvey Hermes Plugin Bundle
+kind: backend
+requires_env:
+  - VOXVEY_TOKEN
+

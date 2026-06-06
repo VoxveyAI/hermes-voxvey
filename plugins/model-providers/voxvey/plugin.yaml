@@ -1,0 +1,11 @@
+name: voxvey
+kind: model-provider
+version: 1.0.0
+description: Voxvey sovereign OpenAI-compatible provider gateway
+author: Voxvey Hermes Plugin Bundle
+requires_env:
+  - name: VOXVEY_TOKEN
+    description: Voxvey bearer token
+    url: https://developers.voxvey.com/
+    secret: true
+

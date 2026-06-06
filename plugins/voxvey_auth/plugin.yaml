@@ -1,0 +1,7 @@
+name: voxvey-auth
+version: 1.0.0
+description: Voxvey OAuth and API-key CLI authentication helpers
+author: Voxvey Hermes Plugin Bundle
+provides_cli:
+  - voxvey
+
