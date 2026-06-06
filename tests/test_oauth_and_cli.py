@@ -3,10 +3,11 @@ from __future__ import annotations
 import argparse
 
 from conftest import install_credential_pool_stub
-from plugins.voxvey_auth import register
-from plugins.voxvey_auth.cli import register_cli, voxvey_command
-from plugins.voxvey_common.client import get_voxvey_token
-from plugins.voxvey_common.oauth import VoxveyOAuthTokens, save_to_hermes_pool
+from voxvey.auth_cli import register_cli, voxvey_command
+from voxvey.auth_plugin import register
+from voxvey.client import get_voxvey_token
+from voxvey.oauth import VoxveyOAuthTokens, save_to_hermes_pool
+from voxvey.realtime import create_client_secret, websocket_url
 
 
 def test_get_token_falls_back_to_credential_pool(monkeypatch):
@@ -43,3 +44,26 @@ def test_cli_api_key_stores_pool_entry():
     assert entry.auth_type == "api_key"
     assert entry.label == "manual"
 
+
+def test_realtime_client_secret_helper(monkeypatch):
+    seen = {}
+
+    class FakeClient:
+        def __init__(self, **kwargs):
+            seen["init"] = kwargs
+
+        def request(self, method, path, json_body=None, timeout=None):
+            seen.update(method=method, path=path, json_body=json_body, timeout=timeout)
+            return 200, {"value": "vxy-realtime-client-secret-test", "expires_at": 123, "model": "xai/grok-voice-latest"}
+
+    monkeypatch.setattr("voxvey.realtime.VoxveyClient", FakeClient)
+    secret = create_client_secret(session={"model": "xai/grok-voice-latest", "voice": "eve"}, expires_seconds=300)
+    assert secret["value"] == "vxy-realtime-client-secret-test"
+    assert seen["path"] == "/v1/realtime/client_secrets"
+    assert seen["json_body"]["expires_after"] == {"seconds": 300}
+    assert seen["json_body"]["session"]["voice"] == "eve"
+
+
+def test_realtime_websocket_url(monkeypatch):
+    monkeypatch.setenv("VOXVEY_BASE_URL", "https://api.voxvey.com")
+    assert websocket_url() == "wss://api.voxvey.com/v1/realtime"

@@ -1,0 +1,10 @@
+name: web-voxvey
+version: 1.0.0
+description: Voxvey Search web backend
+author: Voxvey
+kind: backend
+provides_web_providers:
+  - voxvey
+requires_env:
+  - VOXVEY_TOKEN
+

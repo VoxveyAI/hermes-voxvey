@@ -5,7 +5,7 @@ import urllib.error
 
 import pytest
 
-from plugins.voxvey_common.client import VoxveyClient, VoxveyHTTPError, get_voxvey_token
+from voxvey.client import VoxveyClient, VoxveyHTTPError, get_voxvey_token
 
 
 def test_token_prefers_voxvey_token(monkeypatch):

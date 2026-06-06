@@ -1,4 +1,4 @@
 """Compatibility wrapper for directory-installed Hermes plugins."""
 
-from voxvey.auth_cli import *  # noqa: F401,F403
+from voxvey.search import *  # noqa: F401,F403
 

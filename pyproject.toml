@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "voxvey"
+version = "0.1.0"
+description = "Voxvey provider, media, and OAuth plugins for Hermes Agent"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { file = "LICENSE.md" }
+authors = [
+  { name = "Voxvey" }
+]
+keywords = ["voxvey", "hermes-agent", "plugin", "oauth", "llm"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://voxvey.com"
+Documentation = "https://developers.voxvey.com/"
+
+[project.scripts]
+voxvey = "voxvey.auth_cli:main"
+voxvey-auth = "voxvey.oauth:run_login_cli"
+
+[project.entry-points."hermes_agent.plugins"]
+voxvey = "voxvey.auth_plugin"
+voxvey-model-provider = "voxvey.model_provider"
+voxvey-image-gen = "voxvey.image_gen"
+voxvey-video-gen = "voxvey.video_gen"
+voxvey-search = "voxvey.search"
+
+[tool.setuptools.packages.find]
+include = ["voxvey*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

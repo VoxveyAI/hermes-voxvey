@@ -88,6 +88,18 @@ def install_video_stubs():
     sys.modules["agent.video_gen_provider"] = video_mod
 
 
+def install_web_search_stubs():
+    agent = sys.modules.get("agent") or types.ModuleType("agent")
+    web_mod = types.ModuleType("agent.web_search_provider")
+
+    class WebSearchProvider:
+        pass
+
+    web_mod.WebSearchProvider = WebSearchProvider
+    sys.modules["agent"] = agent
+    sys.modules["agent.web_search_provider"] = web_mod
+
+
 def install_credential_pool_stub():
     agent = sys.modules.get("agent") or types.ModuleType("agent")
     pool_mod = types.ModuleType("agent.credential_pool")
